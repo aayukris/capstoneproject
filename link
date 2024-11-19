@@ -1,1 +1,8 @@
 https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.3.5&packaging=jar&jvmVersion=21&groupId=com&artifactId=Banking-application&name=Banking-application&description=Demo%20project%20for%20Spring%20Boot&packageName=com.Banking-application&dependencies=devtools,web,data-jpa,security,actuator,h2
+spring.h2.console.enabled=true
+spring.datasource.url=jdbc:h2:mem:productdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=password
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update

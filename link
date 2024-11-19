@@ -1,0 +1,1 @@
+https://start.spring.io/#!type=maven-project&language=java&platformVersion=3.3.5&packaging=jar&jvmVersion=21&groupId=com&artifactId=Banking-application&name=Banking-application&description=Demo%20project%20for%20Spring%20Boot&packageName=com.Banking-application&dependencies=devtools,web,data-jpa,security,actuator,h2

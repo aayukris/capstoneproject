@@ -1,43 +1,45 @@
 package com.Banking_application.User.Register.Service;
-import com.Banking_application.User.Register.Entity.RegisterEntity;
-import com.Banking_application.User.Register.Repository.RegisterRepo;
-import com.Banking_application.User.Register.Service.RegisterService;
+import com.Banking_application.User.Register.Entity.UserEntity;
+import com.Banking_application.User.Register.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.SecureRandom;
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class RegisterServiceImpl implements RegisterService {
+public class RegisterServiceImpl {
     @Autowired
-    private RegisterRepo registrationRepository;
+    private UserRepo registerEntityRepository;
 
-    private static final SecureRandom random = new SecureRandom();
-
-    private String generateAccountNumber() {
-        return String.format("%012d", random.nextLong() & Long.MAX_VALUE); // Ensure the number is positive and 12 digits
+    public List<UserEntity> getAllEntities() {
+        return registerEntityRepository.findAll();
     }
 
-    @Override
-    public List<RegisterEntity> getAllRegistrations() {
-        return registrationRepository.findAll();
+    public Optional<UserEntity> getEntityById(Long accountNumber) {
+        return registerEntityRepository.findById(accountNumber);
     }
 
-    @Override
-    public RegisterEntity getRegistrationById(String id) {
-        return registrationRepository.findById(id).orElse(null);
+    public UserEntity createEntity(UserEntity registerEntity) {
+        return registerEntityRepository.save(registerEntity);
     }
 
-    @Override
-    public RegisterEntity saveRegistration(RegisterEntity registration) {
-        // Auto-generate 12-digit account number
-        registration.setAccountNumber(generateAccountNumber());
-        return registrationRepository.save(registration);
+    public UserEntity updateEntity(Long accountNumber, UserEntity entityDetails) {
+        Optional<UserEntity> entityOptional = registerEntityRepository.findById(accountNumber);
+        if (entityOptional.isPresent()) {
+            UserEntity registerEntity = entityOptional.get();
+            registerEntity.setName(entityDetails.getName());
+            registerEntity.setAccType(entityDetails.getAccType());
+            registerEntity.setCreditId(entityDetails.getCreditId());
+            registerEntity.setUsername(entityDetails.getUsername());
+            registerEntity.setPhoneNumber(entityDetails.getPhoneNumber());
+            return registerEntityRepository.save(registerEntity);
+        } else {
+            throw new RuntimeException("RegisterEntity not found with account number: " + accountNumber);
+        }
     }
 
-    @Override
-    public void deleteRegistration(String id) {
-        registrationRepository.deleteById(id);
+    public void deleteEntity(Long accountNumber) {
+        registerEntityRepository.deleteById(accountNumber);
     }
 }

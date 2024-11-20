@@ -32,15 +32,22 @@ public class TransactionController {
     }
 
     @PostMapping("/transfer")
-    public ResponseEntity<String> transferFunds(@RequestBody Map<String, Object> payload) {
-        Long fromAccount = Long.valueOf(payload.get("fromAccount").toString());
-        Long toAccount = Long.valueOf(payload.get("toAccount").toString());
-        Long amount = Long.valueOf(payload.get("amount").toString());
+    public ResponseEntity<String> transferFunds(@RequestBody TransferRequest request) {
         try {
+            Long fromAccount = request.getFromAccount();
+            Long toAccount = request.getToAccount();
+            Long amount = request.getAmount();
+
+            if (fromAccount == null || toAccount == null || amount == null) {
+                return ResponseEntity.badRequest().body("Invalid account or amount.");
+            }
+
             transactionService.transferFunds(fromAccount, toAccount, amount);
             return ResponseEntity.ok("Transfer successful");
+
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body("Transfer failed: " + e.getMessage());
         }
     }
+
 }

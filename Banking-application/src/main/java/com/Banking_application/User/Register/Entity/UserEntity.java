@@ -19,7 +19,31 @@ public class UserEntity{
     private String username;
     @Column(length = 255)
     private String phoneNumber;
+    @Column(length = 255)
+    private Double balance;
+    @Column(length = 255)
+    private String password;
+
+
+
     // Getters and Setters
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+
 
     public Long getAccountNumber() {
         return accountNumber;
